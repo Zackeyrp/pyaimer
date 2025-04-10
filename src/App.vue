@@ -1,14 +1,14 @@
 <template>
-  <Pyaimer />
+  <pyaimer />
 </template>
 
 <script>
-import Pyaimer from './components/Pyaimer.vue';
+import pyaimer from './components/pyaimer.vue';
 
 export default {
   name: 'App',
   components: {
-    Pyaimer,
+    pyaimer,
   },
 };
 </script>
