@@ -1,8 +1,8 @@
 <template>
-  <div class="timer-container" :style="{ backgroundColor: bgColor }" @click="handleClick">
-    <div v-if="showLock" class="lock-mark">🔒</div>
-    <div v-else class="time-box">{{ formattedTime }}</div>
-    <audio ref="audioPlayer" src="/deathHinana.mp3" preload="auto"></audio>
+  <div class="timer-container" @click="handleClick">
+    <div class="time-box">
+      {{ formattedTime }}
+    </div>
   </div>
 </template>
 
@@ -10,13 +10,20 @@
 export default {
   data() {
     return {
-      time: 0,
+      time: 0, // 0.1秒単位
       intervalId: null,
       started: false,
-      bgColor: '#007BFF',
+      bgColor: '#007BFF', // 初期背景色（青）
       clickTimestamps: [],
-      showLock: false
+      audio: Object.assign(new Audio('deathHinana.mp3'), { volume: 0.1}),
+      altAudio: Object.assign(new Audio('ohennjikoito.mp3'), { volume: 0.1}),
+      pyakoitoAudio: Object.assign(new Audio('pyakoito.mp3'), { volume: 0.1}),
+      enelAudio: Object.assign(new Audio('enelHinana.mp3'), { volume: 0.1}),
     };
+  },
+  mounted() {
+    this.audio = new Audio('/deathHinana.mp3'); // ← ファイルを読み込む
+    this.altAudio = new Audio('/ohennjikoito.mp3');
   },
   computed: {
     formattedTime() {
@@ -26,30 +33,49 @@ export default {
   methods: {
     handleClick() {
       const now = Date.now();
-      this.clickTimestamps.push(now);
       this.clickTimestamps = this.clickTimestamps.filter(ts => now - ts <= 1000);
+      this.clickTimestamps.push(now);
 
-      // 1秒以内に3回クリック → 初期化して終了
       if (this.clickTimestamps.length >= 3) {
-        this.resetToInitialState();
+        this.resetToInitialState(); // ← 初期状態に戻す
         this.clickTimestamps = [];
         return;
       }
 
-      // 赤背景 & 30秒未満 → ロック表示・音声再生・リセット
-      if (this.started && this.bgColor === 'red' && this.time < 300) {
-        this.showLock = true;
-        this.$refs.audioPlayer.play();
-        this.resetTimer(false); // 再スタートしない
-        return;
+      if ((this.bgColor === '#007BFF' || this.bgColor === 'yellow')) {
+        if (this.altAudio) {
+          this.altAudio.volume = 0.3;
+          this.altAudio.currentTime = 0;
+          this.altAudio.play().catch(err => {
+            console.warn('再生がブロックされました:', err);
+        });
+      }
+    }
+
+       if (this.bgColor === 'red' && this.time < 300) {
+        if (this.audio) {
+          this.audio.volume = 0.3;
+          this.audio.currentTime = 0;
+          this.audio.play().catch(err => {
+            console.warn('再生がブロックされました:', err);
+          });
+        }
       }
 
-      // 通常のスタート処理
+      if (this.time >= 300 && this.bgColor === 'red') {
+    if (this.altAudio) {
+      this.altAudio.volume = 0.3;
+      this.altAudio.currentTime = 0;
+      this.altAudio.play().catch(err => {
+        console.warn('音声再生失敗:', err);
+      });
+    }
+  }
+
       if (!this.started) {
         this.startTimer();
       }
 
-      // 色の切り替え（30秒未満）
       if (this.started && this.time < 300) {
         if (this.bgColor === '#007BFF') {
           this.bgColor = 'yellow';
@@ -58,33 +84,55 @@ export default {
         }
       }
 
-      // 30秒経過で通常リセット
       if (this.time >= 300) {
-        this.resetTimer(true); // 再スタートする
+        this.resetTimer(true); // ← 通常リセット
       }
     },
     startTimer() {
       this.started = true;
-      this.showLock = false;
       this.intervalId = setInterval(() => {
         this.time++;
+
+         if (this.time === 285 && this.pyakoitoAudio) {
+          this.pyakoitoAudio.volume = 0.3;
+      this.pyakoitoAudio.currentTime = 0;
+      this.pyakoitoAudio.play().catch(err => {
+        console.warn('pyakoito 再生失敗:', err);
+      });
+    }
+
+          if (this.time === 205 && this.pyakoitoAudio) {
+            this.pyakoitoAudio.volume = 0.3;
+      this.pyakoitoAudio.currentTime = 0;
+      this.pyakoitoAudio.play().catch(err => {
+        console.warn('pyakoito 再生失敗:', err);
+      });
+    }
+
+    if (this.time === 300 && this.enelAudio) {
+      this.enelAudio.volume = 0.3;
+      this.enelAudio.currentTime = 0;
+      this.enelAudio.play().catch(err => {
+        console.warn('enelHinana 再生失敗:', err);
+      });
+    }
+
       }, 100);
     },
     resetTimer(shouldRestart) {
       clearInterval(this.intervalId);
       this.time = 0;
+      this.bgColor = 'yellow';
       this.started = false;
       if (shouldRestart) {
-        this.bgColor = 'yellow';
         this.startTimer();
       }
     },
     resetToInitialState() {
       clearInterval(this.intervalId);
       this.time = 0;
-      this.bgColor = '#007BFF';
+      this.bgColor = '#007BFF'; // 青に戻す
       this.started = false;
-      this.showLock = false;
     }
   },
   beforeUnmount() {
@@ -99,10 +147,10 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-color: v-bind(bgColor);
   user-select: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  position: relative;
+  transition: background-color 0.01s ease;
 }
 
 .time-box {
@@ -114,11 +162,5 @@ export default {
   color: black;
   font-family: 'Courier New', Courier, monospace;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-
-.lock-mark {
-  font-size: 8rem;
-  color: white;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 </style>
