@@ -22,8 +22,8 @@ export default {
     };
   },
   mounted() {
-    this.audio = new Audio('/deathHinana.mp3'); // ← ファイルを読み込む
-    this.altAudio = new Audio('/ohennjikoito.mp3');
+    this.audio = new Audio('deathHinana.mp3'); // ← ファイルを読み込む
+    this.altAudio = new Audio('ohennjikoito.mp3');
   },
   computed: {
     formattedTime() {
