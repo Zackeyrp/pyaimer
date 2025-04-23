@@ -2,7 +2,7 @@
   <div class="timer-container" :style="{ backgroundColor: bgColor }" @click="handleClick">
     <div v-if="showLock" class="lock-mark">🔒</div>
     <div v-else class="time-box">{{ formattedTime }}</div>
-    <audio ref="audioPlayer" src="./assets/deathHinana.mp3" preload="auto"></audio>
+    <audio ref="audioPlayer" src="@/assets/deathHinana.mp3" preload="auto"></audio>
   </div>
 </template>
 
