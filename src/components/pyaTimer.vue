@@ -1,11 +1,6 @@
 <template>
-  <div class="timer-container">
+  <div class="timer-container" @click="startTimer">
     <div class="time">{{ formattedTime }}</div>
-    <div class="buttons">
-      <button @click="startTimer">Start</button>
-      <button @click="pauseTimer">Pause</button>
-      <button @click="resetTimer">Reset</button>
-    </div>
   </div>
 </template>
 
@@ -14,7 +9,8 @@ export default {
   data() {
     return {
       time: 0,
-      intervalId: null
+      intervalId: null,
+      started: false
     };
   },
   computed: {
@@ -26,22 +22,15 @@ export default {
   },
   methods: {
     startTimer() {
-      if (this.intervalId) return;
+      if (this.started) return; // すでに始まっているなら何もしない
+      this.started = true;
       this.intervalId = setInterval(() => {
         this.time++;
       }, 1000);
-    },
-    pauseTimer() {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    },
-    resetTimer() {
-      this.pauseTimer();
-      this.time = 0;
     }
   },
   beforeUnmount() {
-    this.pauseTimer();
+    clearInterval(this.intervalId);
   }
 };
 </script>
@@ -49,30 +38,15 @@ export default {
 <style scoped>
 .timer-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #007BFF; /* 青色背景 */
+  background-color: #007BFF;
   color: white;
-  font-size: 3rem;
-  text-align: center;
-}
-
-.buttons {
-  margin-top: 20px;
-}
-
-.buttons button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
+  font-size: 5rem;
+  font-family: 'Courier New', Courier, monospace;
+  user-select: none;
   cursor: pointer;
-}
-
-.buttons button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 </style>
