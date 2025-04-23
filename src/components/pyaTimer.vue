@@ -15,7 +15,7 @@ export default {
       started: false,
       bgColor: '#007BFF', // 初期背景色（青）
       clickTimestamps: [],
-      const audio = new Audio('deathHinana.mp3'),
+      audio: Object.assign(new Audio('deathHinana.mp3'), { volume: 0.3}),
       altAudio: Object.assign(new Audio('ohennjikoito.mp3'), { volume: 0.1}),
       pyakoitoAudio: Object.assign(new Audio('pyakoito.mp3'), { volume: 0.1}),
       enelAudio: Object.assign(new Audio('enelHinana.mp3'), { volume: 0.1}),
