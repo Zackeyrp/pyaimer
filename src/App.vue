@@ -1,13 +1,13 @@
 <template>
-  <pyaimer />
+  <pyaTimer />
 </template>
 
 <script>
-import pyaimer from './components/pyaimer.vue';
+import pyaTimer from './components/pyaTimer.vue';
 
 export default {
   components: {
-    pyaimer
+    pyaTimer
   }
 };
 </script>
