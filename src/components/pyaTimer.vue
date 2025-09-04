@@ -94,7 +94,7 @@ export default {
         this.time++;
 
          if (this.time === 265 && this.pyakoitoAudio) {
-          this.pyakoitoAudio.volume = 0.3;
+          this.pyakoitoAudio.volume = 0.5;
       this.pyakoitoAudio.currentTime = 0;
       this.pyakoitoAudio.play().catch(err => {
         console.warn('pyakoito 再生失敗:', err);
@@ -102,7 +102,7 @@ export default {
     }
 
           if (this.time === 215 && this.pyakoitoAudio) {
-            this.pyakoitoAudio.volume = 0.3;
+            this.pyakoitoAudio.volume = 0.5;
       this.pyakoitoAudio.currentTime = 0;
       this.pyakoitoAudio.play().catch(err => {
         console.warn('pyakoito 再生失敗:', err);
@@ -110,7 +110,7 @@ export default {
     }
 
     if (this.time === 300 && this.enelAudio) {
-      this.enelAudio.volume = 0.3;
+      this.enelAudio.volume = 0.5;
       this.enelAudio.currentTime = 0;
       this.enelAudio.play().catch(err => {
         console.warn('enelHinana 再生失敗:', err);
