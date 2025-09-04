@@ -101,7 +101,7 @@ export default {
       });
     }
 
-          if (this.time === 235 && this.pyakoitoAudio) {
+          if (this.time === 215 && this.pyakoitoAudio) {
             this.pyakoitoAudio.volume = 0.5;
       this.pyakoitoAudio.currentTime = 0;
       this.pyakoitoAudio.play().catch(err => {
