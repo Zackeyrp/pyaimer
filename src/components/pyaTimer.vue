@@ -93,7 +93,7 @@ export default {
       this.intervalId = setInterval(() => {
         this.time++;
 
-         if (this.time === 285 && this.pyakoitoAudio) {
+         if (this.time === 265 && this.pyakoitoAudio) {
           this.pyakoitoAudio.volume = 0.3;
       this.pyakoitoAudio.currentTime = 0;
       this.pyakoitoAudio.play().catch(err => {
@@ -101,7 +101,7 @@ export default {
       });
     }
 
-          if (this.time === 205 && this.pyakoitoAudio) {
+          if (this.time === 215 && this.pyakoitoAudio) {
             this.pyakoitoAudio.volume = 0.3;
       this.pyakoitoAudio.currentTime = 0;
       this.pyakoitoAudio.play().catch(err => {
